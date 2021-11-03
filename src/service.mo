@@ -12,7 +12,7 @@ import H "util/helpers";
 import B "buckets";
 shared ({caller = owner}) actor class DIFI_SERVICE() = this {
     private let maxBuckets: Nat = 100;
-    private let freezingThreshold = 504000; // 7 day
+    private let freezingThreshold = 604800; // 7 day
     private var cyclesSavings: Nat = 0;//cycles  
     private let sumCreating = 200_000_000_000; //cycles
  
@@ -505,5 +505,61 @@ shared ({caller = owner}) actor class DIFI_SERVICE() = this {
         canister_id : Principal;
         settings : canister_settings;
       } -> async ();
+    };
+    //**Web ui**//
+    public func ui_service_canister_id(): async Text{
+       let p = Principal.fromActor(this);
+       let t = Principal.toText(p);
+       return t;
+    };
+    public func ui_service_max_buckets(): async Text{
+       let r = Nat.toText(maxBuckets);
+       return r;
+    }; 
+    public func ui_service_freezing_threshold(): async Text{
+       let r = Nat.toText(freezingThreshold);
+       return r;
+    };
+    public func ui_service_compute_allocation(): async Text{
+       let r = Nat.toText(computeAllocation);
+       return r;
+    };
+    public func ui_service_memory_allocation(): async Text{
+       let r = Nat.toText(memoryAllocation);
+       return r;
+     };
+    public func ui_service_generated_buckets(): async Text{
+       var i = 0;
+       for(b in buckets.vals()){
+             switch(b){
+                 case(null){};
+                 case(?b){ i := i + 1; };
+             };
+       };
+       let r = Nat.toText(i);
+       return r;
+    };
+    public func ui_service_using_memory_size(): async Text{
+       var i: Nat = 0;
+       for(b in buckets.vals()){
+             switch(b){
+                 case(null){};
+                 case(?b){
+                   var sm: Nat = await b.get_rts_memory_size();
+                   i := i + sm;
+                 };
+             };
+       };
+       let r = Nat.toText(i);
+       return r;
+    };
+    public func ui_service_created_tables(): async Text{
+       var i = 0;
+       var tables = await get_tables();
+       for(t in tables.vals()){
+             i := i + 1;
+       };
+       let r = Nat.toText(i);
+       return r;
     };
 }
