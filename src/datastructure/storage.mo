@@ -347,7 +347,11 @@ public class Storage(){
                         a := Array.init(hm.size(), "");
                         var i = 0;
                         Iter.iterate<(Text, Text)>(kv, func((key, value), _i) {                         
-                            var temp = "";   
+                            var temp = "";         
+                            var concat = H.text_concat(sign, sign, "Key");
+                            temp := H.text_concat(sign, sign, key);
+                            concat := H.text_concat(concat, temp, " : "); 
+                            temp := Text.concat(concat, ", ");              
                             List.iterate(columns, func(column: Tree) {
                             let v: ?Text = T.search_value(column, key);
                                 switch(v){
@@ -395,7 +399,11 @@ public class Storage(){
                         let hm = T.get_hashmap(table);
                         let kv = hm.entries();
                         Iter.iterate<(Text, Text)>(kv, func((key, value), _i) {                         
-                            var temp = "";   
+                            var temp = "";         
+                            var concat = H.text_concat(sign, sign, "Key");
+                            temp := H.text_concat(sign, sign, key);
+                            concat := H.text_concat(concat, temp, " : "); 
+                            temp := Text.concat(concat, ", ");       
                             List.iterate(columns, func(column: Tree) {
                             let v: ?Text = T.search_value(column, key);
                                 switch(v){

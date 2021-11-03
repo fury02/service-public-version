@@ -129,19 +129,19 @@ shared({caller = owner}) actor class Bucket(benefit : shared () -> async ()) = t
         colunm_key: Text): async Bool{
         let v = STR.delete_column(table_key, colunm_key); 
         return v;      
-    };//NT
+    };
     //**CLEAR**//
     public func clear_table(
         table_key: Text): async Bool{
         let (_, v) = STR.clear_table(table_key); 
         return v;      
-    };//NT
+    };
     public func clear_column(
         table_key: Text,
         colunm_key: Text): async Bool{
         let (_, _, v) = STR.clear_column(table_key, colunm_key); 
         return v;      
-    };//NT
+    };
     //**Manager cycles**//
     public func deposit() : async() {
       let amount = ExperimentalCycles.available();

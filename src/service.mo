@@ -301,6 +301,65 @@ shared ({caller = owner}) actor class DIFI_SERVICE() = this {
         };  
         return bl; 
     };
+    public func delete_column(
+      table_key: Text,
+      column_key_name: Text): async Bool{
+        let l: List.List<B.Bucket> = await get_buckets_table_contains(table_key);
+        var bl = false;
+        if(List.isNil(l)){
+            return false;
+        }
+        else{
+            let a: [B.Bucket] = List.toArray<B.Bucket>(l);
+            for(b in a.vals()){
+                bl := await b.delete_column(table_key, column_key_name);
+            };
+        };  
+        return bl; 
+    };
+    //**CLEAR**//
+    public func clear_table(
+      table_key: Text): async Bool{
+        let l: List.List<B.Bucket> = await get_buckets_table_contains(table_key);
+        var bl = false;
+        if(List.isNil(l)){
+            return false;
+        }
+        else{
+            let a: [B.Bucket] = List.toArray<B.Bucket>(l);
+            for(b in a.vals()){
+              bl := await b.clear_table(table_key);
+            };
+        };  
+        return bl; 
+    };
+    public func clear_column(
+      table_key: Text,
+      column_key_name: Text): async Bool{
+        let l: List.List<B.Bucket> = await get_buckets_table_contains(table_key);
+        var bl = false;
+        if(List.isNil(l)){
+            return false;
+        }
+        else{
+            let a: [B.Bucket] = List.toArray<B.Bucket>(l);
+            for(b in a.vals()){
+              bl := await b.clear_column(table_key, column_key_name);
+            };
+        };  
+        return bl; 
+    };
+    //**OTHER**//
+    public func exist_table(
+        table_key: Text): async Bool{
+        let l: List.List<B.Bucket> = await get_buckets_table_contains(table_key);
+        if(List.isNil(l)){
+          return false;
+        }
+        else{
+          return true;
+        };  
+    };
     //**Bucket operation**// 
     //**Create and set settings for bucket**// 
     private func create_bucket(): async ?B.Bucket{
